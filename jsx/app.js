@@ -22,7 +22,7 @@ var appStore = Reflux.createStore({
 
         this.updateStatus({
             todos: this.data.todos.concat( newTodo ),
-            filterText: ""
+            filterText: ''
         });
     },
 
@@ -32,7 +32,7 @@ var appStore = Reflux.createStore({
             todos: this.data.todos.filter(function(item){
                 return item.id !== id
             }),
-            filterText: ""
+            filterText: ''
         });
     },
 
@@ -129,29 +129,6 @@ var FilterTodo = React.createClass({
 /**
  * AddTodo
  */
-/*
-class AddTodo extends React.Component {
-    handleAddTodo() {
-        /!*var todo = React.findDOMNode( this.refs.add ).value.trim();
-        if ( !todo ) return;
-
-        this.props.handleAddTodo( todo );
-        React.findDOMNode( this.refs.add ).value = '';*!/
-
-        TodoAction.addTodo( React.findDOMNode( this.refs.add ).value.trim() );
-    }
-
-    render() {
-        return (
-            <div className="addTodo">
-                <input type="text" ref="add" placeholder="what you want to do?" />
-                <button onClick={this.handleAddTodo.bind(this)}>add</button>
-            </div>
-        )
-    }
-}
-*/
-
 var AddTodo = React.createClass({
     handleAddTodo: function() {
         var todo = React.findDOMNode( this.refs.add ).value.trim();
