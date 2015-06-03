@@ -6,18 +6,22 @@
  * reflux
  */
 var TodoAction = Reflux.createActions([
-    'addTodo',
-    'deleteTodo',
-    'filterTodo'
+    "addTodo",
+    "deleteTodo",
+    "filterTodo"
 ]);
 
 var appStore = Reflux.createStore({
     listenables: [TodoAction],
 
-    onAddTodo: function( item ){
+    /**
+     * add a item
+     * @param item
+     */
+    onAddTodo: function( item ) {
         var newTodo = {
             title: item,
-            id: Math.random()
+            id: Math.random()   //set a id
         };
 
         this.updateStatus({
@@ -26,7 +30,11 @@ var appStore = Reflux.createStore({
         });
     },
 
-    onDeleteTodo: function( id ){
+    /**
+     * delete a item
+     * @param id
+     */
+    onDeleteTodo: function( id ) {
 
         this.updateStatus({
             todos: this.data.todos.filter(function(item){
@@ -36,39 +44,52 @@ var appStore = Reflux.createStore({
         });
     },
 
-    onFilterTodo: function( text ){
+    /**
+     * filter the list base on the text input
+     * @param text
+     */
+    onFilterTodo: function( text ) {
         this.updateStatus({
             todos: this.data.todos,
             filterText: text
         });
     },
 
-    updateStatus: function( todos ){
+    /**
+     * whatever the state changes
+     * trigger it
+     * @param todos
+     */
+    updateStatus: function( todos ) {
         this.data = todos;
         this.trigger( todos );
     },
 
-    getInitialState: function(){
+    /**
+     * some simple code for demo
+     * @returns {*}
+     */
+    getInitialState: function() {
          this.data = {
             todos: [
                 {
-                    title: 'eat',
+                    title: "eat",
                     id: Math.random()
                 },
                 {
-                    title: 'sleep',
+                    title: "sleep",
                     id: Math.random()
                 },
                 {
-                    title: 'code',
+                    title: "code",
                     id: Math.random()
                 },
                 {
-                    title: 'go home',
+                    title: "go home",
                     id: Math.random()
                 }
             ],
-            filterText: ''
+            filterText: ""
         };
 
         return this.data;
@@ -129,42 +150,19 @@ var FilterTodo = React.createClass({displayName: "FilterTodo",
 /**
  * AddTodo
  */
-/*
-class AddTodo extends React.Component {
-    handleAddTodo() {
-        /!*var todo = React.findDOMNode( this.refs.add ).value.trim();
-        if ( !todo ) return;
-
-        this.props.handleAddTodo( todo );
-        React.findDOMNode( this.refs.add ).value = '';*!/
-
-        TodoAction.addTodo( React.findDOMNode( this.refs.add ).value.trim() );
-    }
-
-    render() {
-        return (
-            <div className="addTodo">
-                <input type="text" ref="add" placeholder="what you want to do?" />
-                <button onClick={this.handleAddTodo.bind(this)}>add</button>
-            </div>
-        )
-    }
-}
-*/
-
 var AddTodo = React.createClass({displayName: "AddTodo",
     handleAddTodo: function() {
         var todo = React.findDOMNode( this.refs.add ).value.trim();
         if ( !todo ) return;
 
         TodoAction.addTodo( React.findDOMNode( this.refs.add ).value.trim() );
-        React.findDOMNode( this.refs.add ).value = '';
+        React.findDOMNode( this.refs.add ).value = "";
     },
 
     render: function() {
         return (
             React.createElement("div", {className: "addTodo"}, 
-                React.createElement("input", {type: "text", ref: "add", placeholder: "what you want to do?"}), 
+                React.createElement("input", {type: "text", ref: "add", placeholder: "what you want to do ?"}), 
                 React.createElement("button", {onClick: this.handleAddTodo}, "add")
             )
         )
@@ -203,7 +201,7 @@ var Item = React.createClass({displayName: "Item",
 
     render: function() {
         return (
-            React.createElement("li", {onClick: this.handleDeleteTodo.bind(this, this.props['data-id'])}, this.props.item)
+            React.createElement("li", {onClick: this.handleDeleteTodo.bind(this, this.props["data-id"])}, this.props.item)
         )
     }
 });

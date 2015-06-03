@@ -6,69 +6,90 @@
  * reflux
  */
 var TodoAction = Reflux.createActions([
-    'addTodo',
-    'deleteTodo',
-    'filterTodo'
+    "addTodo",
+    "deleteTodo",
+    "filterTodo"
 ]);
 
 var appStore = Reflux.createStore({
     listenables: [TodoAction],
 
-    onAddTodo: function( item ){
+    /**
+     * add a item
+     * @param item
+     */
+    onAddTodo: function( item ) {
         var newTodo = {
             title: item,
-            id: Math.random()
+            id: Math.random()   //set a id
         };
 
         this.updateStatus({
             todos: this.data.todos.concat( newTodo ),
-            filterText: ''
+            filterText: ""
         });
     },
 
-    onDeleteTodo: function( id ){
+    /**
+     * delete a item
+     * @param id
+     */
+    onDeleteTodo: function( id ) {
 
         this.updateStatus({
             todos: this.data.todos.filter(function(item){
                 return item.id !== id
             }),
-            filterText: ''
+            filterText: ""
         });
     },
 
-    onFilterTodo: function( text ){
+    /**
+     * filter the list base on the text input
+     * @param text
+     */
+    onFilterTodo: function( text ) {
         this.updateStatus({
             todos: this.data.todos,
             filterText: text
         });
     },
 
-    updateStatus: function( todos ){
+    /**
+     * whatever the state changes
+     * trigger it
+     * @param todos
+     */
+    updateStatus: function( todos ) {
         this.data = todos;
         this.trigger( todos );
     },
 
-    getInitialState: function(){
+    /**
+     * some simple code for demo
+     * @returns {*}
+     */
+    getInitialState: function() {
          this.data = {
             todos: [
                 {
-                    title: 'eat',
+                    title: "eat",
                     id: Math.random()
                 },
                 {
-                    title: 'sleep',
+                    title: "sleep",
                     id: Math.random()
                 },
                 {
-                    title: 'code',
+                    title: "code",
                     id: Math.random()
                 },
                 {
-                    title: 'go home',
+                    title: "go home",
                     id: Math.random()
                 }
             ],
-            filterText: ''
+            filterText: ""
         };
 
         return this.data;
@@ -135,13 +156,13 @@ var AddTodo = React.createClass({
         if ( !todo ) return;
 
         TodoAction.addTodo( React.findDOMNode( this.refs.add ).value.trim() );
-        React.findDOMNode( this.refs.add ).value = '';
+        React.findDOMNode( this.refs.add ).value = "";
     },
 
     render: function() {
         return (
             <div className="addTodo">
-                <input type="text" ref="add" placeholder="what you want to do?" />
+                <input type="text" ref="add" placeholder="what you want to do ?" />
                 <button onClick={this.handleAddTodo}>add</button>
             </div>
         )
@@ -180,7 +201,7 @@ var Item = React.createClass({
 
     render: function() {
         return (
-            <li onClick={this.handleDeleteTodo.bind(this, this.props['data-id'])}>{this.props.item}</li>
+            <li onClick={this.handleDeleteTodo.bind(this, this.props["data-id"])}>{this.props.item}</li>
         )
     }
 });
